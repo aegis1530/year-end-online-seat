@@ -38,16 +38,16 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+    <div className="min-h-screen bg-gradient-to-br from-purple-400 via-pink-400 to-orange-300">
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-slate-800 mb-2">餐廳座位搜尋系統</h1>
-          <p className="text-slate-600">輸入短ID或桌號來搜尋座位資訊</p>
+          <h1 className="text-white mb-2 drop-shadow-lg">🍽️ 餐廳座位搜尋系統</h1>
+          <p className="text-white/90">輸入短ID或桌號來搜尋座位資訊</p>
         </div>
 
         {/* Search Section */}
-        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div className="bg-white rounded-2xl shadow-xl p-6 mb-6 border-4 border-yellow-300">
           <SearchBar 
             searchQuery={searchQuery}
             onSearchChange={setSearchQuery}
@@ -55,16 +55,16 @@ export default function App() {
         </div>
 
         {/* Add Seat Form */}
-        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-          <h2 className="text-slate-700 mb-4">新增座位</h2>
+        <div className="bg-white rounded-2xl shadow-xl p-6 mb-6 border-4 border-green-300">
+          <h2 className="text-purple-600 mb-4">✨ 新增座位</h2>
           <AddSeatForm onAddSeat={handleAddSeat} />
         </div>
 
         {/* Results Section */}
-        <div className="bg-white rounded-lg shadow-md p-6">
+        <div className="bg-white rounded-2xl shadow-xl p-6 border-4 border-blue-300">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-slate-700">搜尋結果</h2>
-            <span className="text-slate-500">
+            <h2 className="text-pink-600">🔍 搜尋結果</h2>
+            <span className="text-purple-600 bg-purple-100 px-4 py-1 rounded-full">
               共 {filteredSeats.length} 筆結果
             </span>
           </div>
