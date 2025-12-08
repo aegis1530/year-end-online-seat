@@ -73,6 +73,18 @@ export function SeatList({ seats, searchQuery }: SeatListProps) {
             }}
           >
             {seat.englishName}
+            {seat.dietaryNote && (
+              <span 
+                style={{
+                  fontSize: '14px',
+                  color: '#f4c7c7',
+                  fontStyle: 'italic',
+                  marginLeft: '6px'
+                }}
+              >
+                ({seat.dietaryNote})
+              </span>
+            )}
           </div>
         </div>
       ))}

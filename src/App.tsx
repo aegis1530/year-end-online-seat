@@ -248,7 +248,7 @@ export default function App() {
                 transform: 'translateY(-50%) translateX(-70px)'
               }}
             ></span>
-            搜尋結果
+            搜尋結果{filteredSeats.length > 0 ? `共 ${filteredSeats.length} 個` : ''}
             <span 
               style={{
                 content: '""',
