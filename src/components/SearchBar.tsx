@@ -27,7 +27,7 @@ export function SearchBar({ onSearch }: SearchBarProps) {
     >
       <input
         type="text"
-        placeholder="輸入桌號或短 ID"
+        placeholder="輸入桌號或 shortId"
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
         style={{

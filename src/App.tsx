@@ -75,14 +75,28 @@ function mergeSeats(): Seat[] {
 
 const initialSeats = mergeSeats();
 
+// 統計資料介面
+export interface TableStats {
+  meatCount: number;
+  vegetarianCount: number;
+  tables: string[];
+}
+
 export default function App() {
   const [seats, setSeats] = useState<Seat[]>(initialSeats);
   const [searchQuery, setSearchQuery] = useState('');
+  const [showStats, setShowStats] = useState(false);
+  const [tableStats, setTableStats] = useState<TableStats[]>([]);
 
   // 搜尋：支援 shortId（精確匹配）或桌號（列出該桌所有人）
   const filteredSeats = seats.filter((seat) => {
     if (!searchQuery.trim()) return false; // 沒有搜尋條件時不顯示任何結果
     const query = searchQuery.trim().toLowerCase();
+    
+    // 特殊處理：桌號0顯示統計
+    if (query === '0') {
+      return false;
+    }
     
     // 精確匹配 shortId
     if (seat.shortId && seat.shortId.toLowerCase() === query) {
@@ -99,6 +113,74 @@ export default function App() {
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
+    
+    // 檢查是否輸入桌號0，需要顯示統計資料
+    if (query.trim() === '0') {
+      setShowStats(true);
+      calculateStats();
+    } else {
+      setShowStats(false);
+    }
+  };
+
+  // 計算統計資料
+  const calculateStats = () => {
+    // 按桌號分組
+    const tableMap = new Map<string, { meat: number; vegetarian: number }>();
+    
+    seats.forEach((seat) => {
+      if (!seat.tableNumber || !seat.shortId) return;
+      
+      if (!tableMap.has(seat.tableNumber)) {
+        tableMap.set(seat.tableNumber, { meat: 0, vegetarian: 0 });
+      }
+      
+      const stats = tableMap.get(seat.tableNumber)!;
+      // 判斷是否為素食：備註中包含"素"字
+      if (seat.dietaryNote && seat.dietaryNote.includes('素')) {
+        stats.vegetarian++;
+      } else {
+        stats.meat++;
+      }
+    });
+    
+    // 按葷素組合分組
+    const statsMap = new Map<string, string[]>();
+    
+    tableMap.forEach((stats, tableNumber) => {
+      const key = `${stats.meat},${stats.vegetarian}`;
+      if (!statsMap.has(key)) {
+        statsMap.set(key, []);
+      }
+      statsMap.get(key)!.push(tableNumber);
+    });
+    
+    // 轉換為陣列並排序
+    const result: TableStats[] = [];
+    statsMap.forEach((tables, key) => {
+      const [meat, vegetarian] = key.split(',').map(Number);
+      // 桌號由小到大排序（數字排序）
+      tables.sort((a, b) => {
+        const numA = parseInt(a);
+        const numB = parseInt(b);
+        return numA - numB;
+      });
+      result.push({
+        meatCount: meat,
+        vegetarianCount: vegetarian,
+        tables
+      });
+    });
+    
+    // 按照葷食數量降序，素食數量升序排序
+    result.sort((a, b) => {
+      if (a.meatCount !== b.meatCount) {
+        return b.meatCount - a.meatCount;
+      }
+      return a.vegetarianCount - b.vegetarianCount;
+    });
+    
+    setTableStats(result);
   };
 
   const handleAddSeat = (newSeat: Omit<Seat, 'id'>) => {
@@ -248,7 +330,7 @@ export default function App() {
                 transform: 'translateY(-50%) translateX(-70px)'
               }}
             ></span>
-            搜尋結果{filteredSeats.length > 0 ? `共 ${filteredSeats.length} 個` : ''}
+            {showStats ? '統計資料' : `搜尋結果${filteredSeats.length > 0 ? `共 ${filteredSeats.length} 個` : ''}`}
             <span 
               style={{
                 content: '""',
@@ -264,7 +346,12 @@ export default function App() {
         </div>
 
         {/* 結果卡片 */}
-        <SeatList seats={filteredSeats} searchQuery={searchQuery} />
+        <SeatList 
+          seats={filteredSeats} 
+          searchQuery={searchQuery} 
+          showStats={showStats}
+          tableStats={tableStats}
+        />
       </div>
     </div>
   );
