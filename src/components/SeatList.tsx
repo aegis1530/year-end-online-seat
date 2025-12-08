@@ -89,7 +89,7 @@ export function SeatList({ seats, searchQuery }: SeatListProps) {
               <Armchair className={`h-10 w-10 ${colorScheme.icon}`} style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))' }} />
             </div>
             <div className="flex-1">
-              <div className="flex items-center gap-6">
+              <div className="flex items-center gap-6 flex-wrap">
                 <div>
                   <div className="text-slate-500 mb-2" style={{ textShadow: '1px 1px 2px rgba(255,255,255,0.8)' }}>
                     🏷️ 短ID
@@ -110,6 +110,38 @@ export function SeatList({ seats, searchQuery }: SeatListProps) {
                     {highlightText(seat.tableNumber, searchQuery)}
                   </div>
                 </div>
+                {seat.englishName && (
+                  <>
+                    <div 
+                      className="h-12 w-1 bg-gradient-to-b from-slate-200 via-slate-300 to-slate-200 rounded-full"
+                      style={{ boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.2)' }}
+                    ></div>
+                    <div>
+                      <div className="text-slate-500 mb-2" style={{ textShadow: '1px 1px 2px rgba(255,255,255,0.8)' }}>
+                        👤 英文姓名
+                      </div>
+                      <div className="text-slate-900" style={{ textShadow: '1px 1px 2px rgba(255,255,255,0.5)' }}>
+                        {seat.englishName}
+                      </div>
+                    </div>
+                  </>
+                )}
+                {seat.dietaryNote && (
+                  <>
+                    <div 
+                      className="h-12 w-1 bg-gradient-to-b from-slate-200 via-slate-300 to-slate-200 rounded-full"
+                      style={{ boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.2)' }}
+                    ></div>
+                    <div>
+                      <div className="text-slate-500 mb-2" style={{ textShadow: '1px 1px 2px rgba(255,255,255,0.8)' }}>
+                        🍽️ 飲食備註
+                      </div>
+                      <div className="text-orange-600 font-medium" style={{ textShadow: '1px 1px 2px rgba(255,255,255,0.5)' }}>
+                        {seat.dietaryNote}
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           </div>
