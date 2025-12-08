@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { SearchBar } from './components/SearchBar';
 import { SeatList } from './components/SeatList';
 import mediaSeatsCSV from './rawdata/media_seats.csv?raw';
@@ -110,57 +110,161 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 relative overflow-hidden">
-      {/* 3D 背景裝飾 */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 w-32 h-32 bg-yellow-400 rounded-full opacity-20 blur-3xl"></div>
-        <div className="absolute bottom-20 right-10 w-40 h-40 bg-pink-400 rounded-full opacity-20 blur-3xl"></div>
-        <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-purple-400 rounded-full opacity-10 blur-3xl"></div>
-      </div>
-      
-      <div className="container mx-auto px-4 py-12 max-w-4xl relative z-10" style={{ perspective: '1000px' }}>
-        {/* Header */}
-        <div className="text-center mb-12 transform hover:scale-105 transition-transform duration-300">
-          <h1 className="text-white mb-3 drop-shadow-2xl" style={{ textShadow: '0 10px 30px rgba(0,0,0,0.3), 0 0 20px rgba(255,255,255,0.2)' }}>
-            🍽️ 餐廳座位搜尋系統
-          </h1>
-          <p className="text-white/95 drop-shadow-lg">輸入短ID或桌號來搜尋座位資訊</p>
-        </div>
-
-        {/* Search Section */}
+    <div 
+      className="min-h-screen flex justify-center items-center"
+      style={{
+        fontFamily: '"Times New Roman", "Noto Serif TC", serif',
+        background: 'radial-gradient(circle at top, #3a1b33 0%, #12040f 45%, #050108 100%)',
+        color: '#f8e9b8'
+      }}
+    >
+      <div 
+        className="relative overflow-hidden"
+        style={{
+          width: '414px',
+          maxWidth: '100%',
+          padding: '24px 18px 32px',
+          background: 'radial-gradient(circle at top, #2a101b 0%, #12050d 50%, #080308 100%)',
+          borderRadius: '28px',
+          border: '1px solid #cfa350',
+          boxShadow: '0 0 25px rgba(0, 0, 0, 0.85), 0 0 50px rgba(255, 215, 128, 0.25)'
+        }}
+      >
+        {/* 角落裝飾 */}
         <div 
-          className="bg-gradient-to-br from-yellow-100 to-yellow-50 rounded-3xl p-8 mb-8 transform hover:translate-y-[-8px] transition-all duration-300"
-          style={{ 
-            boxShadow: '0 20px 60px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.1), inset 0 1px 0 rgba(255,255,255,0.6)',
-            transform: 'rotateX(2deg)'
+          className="absolute"
+          style={{
+            width: '64px',
+            height: '64px',
+            borderRadius: '100%',
+            border: '2px solid rgba(223, 181, 96, 0.8)',
+            filter: 'blur(0.2px)',
+            opacity: 0.8,
+            top: '-32px',
+            left: '-32px'
+          }}
+        ></div>
+        <div 
+          className="absolute"
+          style={{
+            width: '64px',
+            height: '64px',
+            borderRadius: '100%',
+            border: '2px solid rgba(223, 181, 96, 0.8)',
+            filter: 'blur(0.2px)',
+            opacity: 0.8,
+            top: '-32px',
+            right: '-32px'
+          }}
+        ></div>
+        <div 
+          className="absolute"
+          style={{
+            width: '64px',
+            height: '64px',
+            borderRadius: '100%',
+            border: '2px solid rgba(223, 181, 96, 0.8)',
+            filter: 'blur(0.2px)',
+            opacity: 0.8,
+            bottom: '-32px',
+            left: '-32px'
+          }}
+        ></div>
+        <div 
+          className="absolute"
+          style={{
+            width: '64px',
+            height: '64px',
+            borderRadius: '100%',
+            border: '2px solid rgba(223, 181, 96, 0.8)',
+            filter: 'blur(0.2px)',
+            opacity: 0.8,
+            bottom: '-32px',
+            right: '-32px'
+          }}
+        ></div>
+
+        {/* 標題 */}
+        <h1 
+          className="text-center relative"
+          style={{
+            fontSize: '28px',
+            letterSpacing: '0.24em',
+            color: '#f4e1a8',
+            marginBottom: '24px',
+            textShadow: '0 0 8px rgba(0, 0, 0, 0.9)'
           }}
         >
-          <SearchBar 
-            onSearch={handleSearch}
-          />
-        </div>
-
-        {/* Results Section */}
-        <div 
-          className="bg-gradient-to-br from-blue-100 to-cyan-50 rounded-3xl p-8 transform hover:translate-y-[-8px] transition-all duration-300"
-          style={{ 
-            boxShadow: '0 20px 60px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.1), inset 0 1px 0 rgba(255,255,255,0.6)',
-            transform: 'rotateX(2deg)'
-          }}
-        >
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-pink-700 drop-shadow-md" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.1)' }}>
-              🔍 搜尋結果
-            </h2>
+          <span style={{ position: 'relative' }}>
             <span 
-              className="text-purple-700 bg-white px-6 py-2 rounded-full shadow-lg"
-              style={{ boxShadow: '0 4px 15px rgba(0,0,0,0.2), inset 0 -2px 5px rgba(0,0,0,0.1)' }}
-            >
-              共 {filteredSeats.length} 筆結果
-            </span>
-          </div>
-          <SeatList seats={filteredSeats} searchQuery={searchQuery} />
+              style={{
+                content: '""',
+                position: 'absolute',
+                top: '50%',
+                left: '0',
+                width: '20%',
+                height: '1px',
+                background: 'linear-gradient(to right, rgba(207, 163, 80, 0), rgba(207, 163, 80, 0.8), rgba(207, 163, 80, 0))',
+                transform: 'translateY(-50%) translateX(-120%)'
+              }}
+            ></span>
+            座位搜尋
+            <span 
+              style={{
+                content: '""',
+                position: 'absolute',
+                top: '50%',
+                right: '0',
+                width: '20%',
+                height: '1px',
+                background: 'linear-gradient(to right, rgba(207, 163, 80, 0), rgba(207, 163, 80, 0.8), rgba(207, 163, 80, 0))',
+                transform: 'translateY(-50%) translateX(120%)'
+              }}
+            ></span>
+          </span>
+        </h1>
+
+        {/* 搜尋區塊 */}
+        <SearchBar onSearch={handleSearch} />
+
+        {/* 搜尋結果標題 */}
+        <div 
+          className="text-center relative"
+          style={{
+            fontSize: '20px',
+            color: '#f2dfb1',
+            margin: '8px 0 14px'
+          }}
+        >
+          <span style={{ position: 'relative', display: 'inline-block' }}>
+            <span 
+              style={{
+                content: '""',
+                position: 'absolute',
+                top: '50%',
+                width: '60px',
+                height: '1px',
+                background: 'linear-gradient(to right, rgba(207, 163, 80, 0), rgba(207, 163, 80, 0.9), rgba(207, 163, 80, 0))',
+                transform: 'translateY(-50%) translateX(-70px)'
+              }}
+            ></span>
+            搜尋結果
+            <span 
+              style={{
+                content: '""',
+                position: 'absolute',
+                top: '50%',
+                width: '60px',
+                height: '1px',
+                background: 'linear-gradient(to right, rgba(207, 163, 80, 0), rgba(207, 163, 80, 0.9), rgba(207, 163, 80, 0))',
+                transform: 'translateY(-50%) translateX(10px)'
+              }}
+            ></span>
+          </span>
         </div>
+
+        {/* 結果卡片 */}
+        <SeatList seats={filteredSeats} searchQuery={searchQuery} />
       </div>
     </div>
   );

@@ -1,5 +1,4 @@
-import { Search } from 'lucide-react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 interface SearchBarProps {
   onSearch: (query: string) => void;
@@ -14,41 +13,71 @@ export function SearchBar({ onSearch }: SearchBarProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex gap-4">
-      <div className="relative flex-1">
-        <div 
-          className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none z-10"
-          style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))' }}
-        >
-          <Search className="h-6 w-6 text-purple-600" />
-        </div>
-        <input
-          type="text"
-          placeholder="請輸入短ID或桌號..."
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-          className="w-full pl-14 pr-5 py-4 rounded-2xl focus:outline-none transition-all bg-white border-0"
-          style={{ 
-            boxShadow: 'inset 0 4px 8px rgba(0,0,0,0.1), 0 1px 2px rgba(255,255,255,0.8)',
-            transform: 'translateZ(0)'
-          }}
-          onFocus={(e) => {
-            e.target.style.boxShadow = 'inset 0 6px 12px rgba(0,0,0,0.15), 0 2px 4px rgba(255,255,255,0.9)';
-          }}
-          onBlur={(e) => {
-            e.target.style.boxShadow = 'inset 0 4px 8px rgba(0,0,0,0.1), 0 1px 2px rgba(255,255,255,0.8)';
-          }}
-        />
-      </div>
+    <form 
+      onSubmit={handleSubmit}
+      style={{
+        display: 'flex',
+        marginBottom: '24px',
+        borderRadius: '18px',
+        border: '1px solid #cfa350',
+        background: 'linear-gradient(135deg, #4a1f24 0%, #2a0f15 100%)',
+        boxShadow: 'inset 0 0 10px rgba(0, 0, 0, 0.8)',
+        overflow: 'hidden'
+      }}
+    >
+      <input
+        type="text"
+        placeholder="輸入桌號或短 ID"
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
+        style={{
+          flex: 1,
+          border: 'none',
+          padding: '12px 16px',
+          fontSize: '18px',
+          background: 'transparent',
+          color: '#fbeac3',
+          outline: 'none'
+        }}
+        className="placeholder-opacity-50"
+      />
+      <style>{`
+        input::placeholder {
+          color: rgba(251, 234, 195, 0.5);
+        }
+      `}</style>
       <button
         type="submit"
-        className="px-8 py-4 bg-gradient-to-br from-pink-500 to-purple-600 text-white rounded-2xl hover:from-pink-600 hover:to-purple-700 transition-all transform hover:scale-105 hover:translate-y-[-4px]"
-        style={{ 
-          boxShadow: '0 8px 24px rgba(219, 39, 119, 0.4), inset 0 -3px 6px rgba(0,0,0,0.2)',
-          textShadow: '0 2px 4px rgba(0,0,0,0.3)'
+        style={{
+          width: '108px',
+          border: 'none',
+          borderLeft: '1px solid rgba(250, 225, 160, 0.4)',
+          background: 'linear-gradient(135deg, #cfa350 0%, #f7d57b 35%, #b17d2e 100%)',
+          color: '#3b200b',
+          fontSize: '18px',
+          fontWeight: 'bold',
+          cursor: 'pointer',
+          transition: 'transform 0.1s ease-out, box-shadow 0.1s ease-out',
+          letterSpacing: '0.18em'
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = 'translateY(-1px)';
+          e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.6)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = 'translateY(0)';
+          e.currentTarget.style.boxShadow = 'none';
+        }}
+        onMouseDown={(e) => {
+          e.currentTarget.style.transform = 'translateY(1px)';
+          e.currentTarget.style.boxShadow = 'inset 0 2px 5px rgba(0, 0, 0, 0.6)';
+        }}
+        onMouseUp={(e) => {
+          e.currentTarget.style.transform = 'translateY(-1px)';
+          e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.6)';
         }}
       >
-        🔍 確定
+        搜尋
       </button>
     </form>
   );
