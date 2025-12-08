@@ -53,8 +53,8 @@ export function SeatList({ seats, searchQuery }: SeatListProps) {
           </>
         ) : (
           <>
-            <p className="text-purple-800 drop-shadow-sm">請輸入短ID開始搜尋</p>
-            <p className="text-purple-600 drop-shadow-sm">例如: dsu03</p>
+            <p className="text-purple-800 drop-shadow-sm">請輸入短ID或桌號開始搜尋</p>
+            <p className="text-purple-600 drop-shadow-sm">例如: dsu03 或 38</p>
           </>
         )}
       </div>

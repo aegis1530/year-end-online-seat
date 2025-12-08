@@ -24,7 +24,7 @@ export function SearchBar({ onSearch }: SearchBarProps) {
         </div>
         <input
           type="text"
-          placeholder="請輸入短ID..."
+          placeholder="請輸入短ID或桌號..."
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           className="w-full pl-14 pr-5 py-4 rounded-2xl focus:outline-none transition-all bg-white border-0"

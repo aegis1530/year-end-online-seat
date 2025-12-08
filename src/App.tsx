@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { SearchBar } from './components/SearchBar';
 import { SeatList } from './components/SeatList';
-import seatsCSV from './rawdata/media_seats.csv?raw';
+import mediaSeatsCSV from './rawdata/media_seats.csv?raw';
+import ecSeatsCSV from './rawdata/ec_seats.csv?raw';
 
 export interface Seat {
   id: string;
@@ -32,14 +33,13 @@ function parseCSVLine(line: string): string[] {
   return result;
 }
 
-// 解析 CSV 資料
-function parseSeatsCSV(csvString: string): Seat[] {
+// 解析 CSV 資料（不含 id）
+function parseSeatsCSVRaw(csvString: string): Omit<Seat, 'id'>[] {
   const lines = csvString.trim().split('\n');
-  // 跳過標題行，自動產生 id
-  return lines.slice(1).map((line, index) => {
+  // 跳過標題行
+  return lines.slice(1).map((line) => {
     const [tableNumber, shortId, englishName, dietaryNote] = parseCSVLine(line);
     return { 
-      id: String(index + 1), 
       shortId: shortId || '', 
       tableNumber: tableNumber || '',
       englishName: englishName || '',
@@ -48,17 +48,53 @@ function parseSeatsCSV(csvString: string): Seat[] {
   });
 }
 
-const initialSeats = parseSeatsCSV(seatsCSV);
+// 合併兩個 CSV 資料，ec_seats 中不重複的 shortId 會被加入
+function mergeSeats(): Seat[] {
+  const mediaSeats = parseSeatsCSVRaw(mediaSeatsCSV);
+  const ecSeats = parseSeatsCSVRaw(ecSeatsCSV);
+  
+  // 建立 media seats 的 shortId Set（小寫，用於比對）
+  const existingShortIds = new Set(
+    mediaSeats
+      .filter(s => s.shortId)
+      .map(s => s.shortId.toLowerCase())
+  );
+  
+  // 篩選 ec_seats 中不重複的 shortId
+  const uniqueEcSeats = ecSeats.filter(
+    s => s.shortId && !existingShortIds.has(s.shortId.toLowerCase())
+  );
+  
+  // 合併並加上 id
+  const allSeats = [...mediaSeats, ...uniqueEcSeats];
+  return allSeats.map((seat, index) => ({
+    ...seat,
+    id: String(index + 1)
+  }));
+}
+
+const initialSeats = mergeSeats();
 
 export default function App() {
   const [seats, setSeats] = useState<Seat[]>(initialSeats);
   const [searchQuery, setSearchQuery] = useState('');
 
-  // 精確搜尋短ID
+  // 搜尋：支援 shortId（精確匹配）或桌號（列出該桌所有人）
   const filteredSeats = seats.filter((seat) => {
     if (!searchQuery.trim()) return false; // 沒有搜尋條件時不顯示任何結果
-    const query = searchQuery.toLowerCase();
-    return seat.shortId.toLowerCase() === query; // 完全符合才顯示
+    const query = searchQuery.trim().toLowerCase();
+    
+    // 精確匹配 shortId
+    if (seat.shortId && seat.shortId.toLowerCase() === query) {
+      return true;
+    }
+    
+    // 匹配桌號（只顯示有 shortId 的座位）
+    if (seat.tableNumber === query && seat.shortId) {
+      return true;
+    }
+    
+    return false;
   });
 
   const handleSearch = (query: string) => {
