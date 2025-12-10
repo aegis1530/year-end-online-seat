@@ -31,7 +31,7 @@ export function SearchBar({ onSearch }: SearchBarProps) {
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
         style={{
-          flex: 1,
+          width: '75%',
           border: 'none',
           padding: '12px 16px',
           fontSize: '18px',
@@ -49,7 +49,11 @@ export function SearchBar({ onSearch }: SearchBarProps) {
       <button
         type="submit"
         style={{
-          width: '108px',
+          flex: 1,
+          flexShrink: 0,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
           border: 'none',
           borderLeft: '1px solid rgba(250, 225, 160, 0.4)',
           background: 'linear-gradient(135deg, #cfa350 0%, #f7d57b 35%, #b17d2e 100%)',
