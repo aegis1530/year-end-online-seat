@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import seatingChartImage from '../assets/seating-chart.png';
 
 interface SearchBarProps {
   onSearch: (query: string) => void;
@@ -13,7 +14,30 @@ export function SearchBar({ onSearch }: SearchBarProps) {
   };
 
   return (
-    <form 
+    <div>
+      {/* 座位圖片 */}
+      <div 
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginBottom: '20px'
+        }}
+      >
+        <img 
+          src={seatingChartImage} 
+          alt="座位分佈圖" 
+          style={{
+            maxWidth: '100%',
+            height: 'auto',
+            borderRadius: '12px',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.5)'
+          }}
+        />
+      </div>
+
+      {/* 搜尋表單 */}
+      <form 
       onSubmit={handleSubmit}
       style={{
         display: 'flex',
@@ -84,5 +108,6 @@ export function SearchBar({ onSearch }: SearchBarProps) {
         搜尋
       </button>
     </form>
+    </div>
   );
 }
