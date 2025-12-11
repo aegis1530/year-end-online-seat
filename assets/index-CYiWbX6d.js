@@ -150,7 +150,6 @@ Error generating stack: `+i.message+`
 12,sandypan,Sandy Pan,
 12,iveshuang,Ives Huang,
 12,tomhsieh,Tom Hsieh,
-12,lewislau,Lewis Lau,
 12,clark45,Clark Cheng,
 12,kapean,AllenChang,
 12,hermit,Hermit Fang,
