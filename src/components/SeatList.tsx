@@ -37,7 +37,7 @@ export function SeatList({ seats, searchQuery, showStats, tableStats }: SeatList
                 {stat.meatCount}葷{stat.vegetarianCount}素
               </span>
               <span style={{ color: '#f1ddad', marginLeft: '8px' }}>
-                (共{stat.tables.length}桌)
+                (共{stat.tables.length}筆)
               </span>
             </div>
             <div style={{ color: '#cfa350', fontSize: '15px' }}>
