@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { SearchBar } from './components/SearchBar';
 import { SeatList } from './components/SeatList';
-import mediaSeatsCSV from './rawdata/media_seats.csv?raw';
-import ecSeatsCSV from './rawdata/ec_seats.csv?raw';
+import mediaSeatsCSV from './assets/media_seats.csv?raw';
+import ecSeatsCSV from './assets/ec_seats.csv?raw';
 
 export interface Seat {
   id: string;
